@@ -24,7 +24,15 @@ module.exports = {
   },
   devtool: 'source-map',
   devServer: {
-    static: path.resolve(__dirname, 'dist'),
+    static: [
+      {
+        directory: path.resolve(__dirname, 'dist'),
+      },
+      {
+        directory: path.resolve(__dirname, 'public'),
+        publicPath: '/',
+      },
+    ],
     historyApiFallback: true,
     port: 3000,
     open: true,
@@ -80,6 +88,10 @@ module.exports = {
         {
           from: path.resolve(__dirname, 'node_modules/@cornerstonejs/codec-libjpeg-turbo-8bit/dist/libjpegturbowasm_decode.wasm'),
           to: 'libjpegturbowasm_decode.wasm',
+        },
+        {
+          from: path.resolve(__dirname, 'public/assets'),
+          to: 'assets',
         },
       ],
     }),

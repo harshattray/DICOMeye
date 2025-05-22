@@ -12,6 +12,11 @@ import {
   ZoomTool,
   PanTool,
   WindowLevelTool,
+  LengthTool,
+  AngleTool,
+  ScaleOverlayTool,
+  RectangleROITool,
+  CircleROITool,
 } from '@cornerstonejs/tools';
 
 interface ViewerProps {
@@ -47,22 +52,33 @@ const Viewer: React.FC<ViewerProps> = ({ imageId }) => {
 
         // Create tool group if it doesn't exist
         if (!toolGroup) {
+          // Add all tools
           addTool(ZoomTool);
           addTool(PanTool);
           addTool(WindowLevelTool);
+          addTool(LengthTool);
+          addTool(AngleTool);
+          addTool(ScaleOverlayTool);
+          addTool(RectangleROITool);
+          addTool(CircleROITool);
 
           toolGroup = ToolGroupManager.createToolGroup(TOOLGROUP_ID);
           if (!toolGroup) {
             throw new Error('Failed to create tool group');
           }
 
+          // Add tools to the tool group
           toolGroup.addTool(ZoomTool.toolName);
           toolGroup.addTool(PanTool.toolName);
           toolGroup.addTool(WindowLevelTool.toolName);
+          toolGroup.addTool(LengthTool.toolName);
+          toolGroup.addTool(AngleTool.toolName);
+          toolGroup.addTool(ScaleOverlayTool.toolName);
+          toolGroup.addTool(RectangleROITool.toolName);
+          toolGroup.addTool(CircleROITool.toolName);
 
+          // Set default tool (Window Level)
           toolGroup.setToolActive(WindowLevelTool.toolName, { bindings: [{ mouseButton: 1 }] });
-          toolGroup.setToolActive(ZoomTool.toolName, { bindings: [{ mouseButton: 2 }] });
-          toolGroup.setToolActive(PanTool.toolName, { bindings: [{ mouseButton: 4 }] });
 
           toolGroup.addViewport(VIEWPORT_ID, RENDERING_ENGINE_ID);
         }
@@ -118,8 +134,8 @@ const Viewer: React.FC<ViewerProps> = ({ imageId }) => {
   return (
     <div
       ref={elementRef}
-      className="w-full h-[512px] border bg-black"
-      style={{ width: '512px', height: '512px' }}
+      className="w-full h-full border bg-black"
+      style={{ width: '100%', height: '100%' }}
     />
   );
 };
