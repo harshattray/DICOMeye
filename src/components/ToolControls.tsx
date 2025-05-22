@@ -9,6 +9,15 @@ import {
   RectangleROITool,
   CircleROITool,
 } from '@cornerstonejs/tools';
+import {
+  ArrowsPointingOutIcon,
+  HandRaisedIcon,
+  AdjustmentsHorizontalIcon,
+  Square2StackIcon,
+  Square3Stack3DIcon,
+  CircleStackIcon,
+  ArrowPathIcon,
+} from '@heroicons/react/24/outline';
 
 const TOOLGROUP_ID = 'defaultToolGroup';
 
@@ -43,80 +52,63 @@ const ToolControls: React.FC<ToolControlsProps> = ({ isActive }) => {
 
   if (!isActive) return null;
 
+  const tools = [
+    {
+      name: WindowLevelTool.toolName,
+      label: 'Window Level',
+      icon: AdjustmentsHorizontalIcon,
+    },
+    {
+      name: ZoomTool.toolName,
+      label: 'Zoom',
+      icon: ArrowsPointingOutIcon,
+    },
+    {
+      name: PanTool.toolName,
+      label: 'Pan',
+      icon: HandRaisedIcon,
+    },
+    {
+      name: LengthTool.toolName,
+      label: 'Length',
+      icon: ArrowPathIcon,
+    },
+    {
+      name: AngleTool.toolName,
+      label: 'Angle',
+      icon: Square2StackIcon,
+    },
+    {
+      name: RectangleROITool.toolName,
+      label: 'Rectangle',
+      icon: Square3Stack3DIcon,
+    },
+    {
+      name: CircleROITool.toolName,
+      label: 'Circle',
+      icon: CircleStackIcon,
+    },
+  ];
+
   return (
     <div className="space-y-2">
       <div className="text-sm font-medium text-gray-700 mb-2">Tools</div>
       <div className="grid grid-cols-2 gap-2">
-        <button
-          onClick={() => handleToolClick(WindowLevelTool.toolName)}
-          className={`px-3 py-2 text-sm rounded-md ${
-            activeTool === WindowLevelTool.toolName
-              ? 'bg-blue-500 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          Window Level
-        </button>
-        <button
-          onClick={() => handleToolClick(ZoomTool.toolName)}
-          className={`px-3 py-2 text-sm rounded-md ${
-            activeTool === ZoomTool.toolName
-              ? 'bg-blue-500 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          Zoom
-        </button>
-        <button
-          onClick={() => handleToolClick(PanTool.toolName)}
-          className={`px-3 py-2 text-sm rounded-md ${
-            activeTool === PanTool.toolName
-              ? 'bg-blue-500 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          Pan
-        </button>
-        <button
-          onClick={() => handleToolClick(LengthTool.toolName)}
-          className={`px-3 py-2 text-sm rounded-md ${
-            activeTool === LengthTool.toolName
-              ? 'bg-blue-500 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          Length
-        </button>
-        <button
-          onClick={() => handleToolClick(AngleTool.toolName)}
-          className={`px-3 py-2 text-sm rounded-md ${
-            activeTool === AngleTool.toolName
-              ? 'bg-blue-500 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          Angle
-        </button>
-        <button
-          onClick={() => handleToolClick(RectangleROITool.toolName)}
-          className={`px-3 py-2 text-sm rounded-md ${
-            activeTool === RectangleROITool.toolName
-              ? 'bg-blue-500 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          Rectangle
-        </button>
-        <button
-          onClick={() => handleToolClick(CircleROITool.toolName)}
-          className={`px-3 py-2 text-sm rounded-md ${
-            activeTool === CircleROITool.toolName
-              ? 'bg-blue-500 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          Circle
-        </button>
+        {tools.map(({ name, label, icon: Icon }) => (
+          <button
+            key={name}
+            onClick={() => handleToolClick(name)}
+            className={`flex items-center justify-center gap-2 px-3 py-2 text-sm rounded-md transition-colors ${
+              activeTool === name
+                ? 'bg-blue-500 text-white'
+                : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+            }`}
+            title={label}
+          >
+            <Icon className="h-5 w-5" />
+            <span>{label}</span>
+          </button>
+        ))}
       </div>
     </div>
   );

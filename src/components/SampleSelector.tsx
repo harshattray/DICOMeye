@@ -1,4 +1,6 @@
 import React from 'react';
+import { saveDicom } from '@lib/storage';
+import { DocumentArrowDownIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 interface SampleSelectorProps {
   onSelect: (files: File[]) => void;
@@ -28,6 +30,13 @@ const SampleSelector: React.FC<SampleSelectorProps> = ({ onSelect, onClear, isAc
         lastModified: new Date().getTime()
       });
 
+      // Save the sample file to IndexedDB
+      try {
+        await saveDicom(file);
+      } catch (error) {
+        console.error('Failed to save sample file to storage:', error);
+      }
+
       console.log('File object created:', file.name, file.size, file.type);
       onSelect([file]);
     } catch (error) {
@@ -40,11 +49,10 @@ const SampleSelector: React.FC<SampleSelectorProps> = ({ onSelect, onClear, isAc
 
   return (
     <div className="space-y-2">
-      <div className="text-sm font-medium text-gray-700 mb-2">Sample Files</div>
       <div className="flex gap-2">
         <select
           onChange={handleSampleSelect}
-          className="flex-1 px-3 py-2 text-sm rounded-md bg-gray-100 text-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-1 px-3 py-2 text-sm rounded-md bg-white border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           defaultValue=""
         >
           <option value="">Select a sample...</option>
@@ -52,10 +60,15 @@ const SampleSelector: React.FC<SampleSelectorProps> = ({ onSelect, onClear, isAc
         </select>
         <button
           onClick={onClear}
-          className="px-3 py-2 text-sm rounded-md bg-red-100 text-red-700 hover:bg-red-200"
+          className="inline-flex items-center px-3 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-md hover:bg-red-100 transition-colors"
+          title="Clear selection"
         >
-          Clear
+          <TrashIcon className="h-5 w-5" />
         </button>
+      </div>
+      <div className="text-xs text-gray-500">
+        <DocumentArrowDownIcon className="h-4 w-4 inline-block mr-1" />
+        Select a sample DICOM file to view
       </div>
     </div>
   );
