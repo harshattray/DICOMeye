@@ -1,4 +1,6 @@
 import React from 'react';
+import { useToolManager } from '../hooks/useToolManager';
+import { useToolConfig } from '../hooks/useToolConfig';
 import {
   ToolGroupManager,
   ZoomTool,
@@ -26,69 +28,10 @@ interface ToolControlsProps {
 }
 
 const ToolControls: React.FC<ToolControlsProps> = ({ isActive }) => {
-  const [activeTool, setActiveTool] = React.useState<string | null>(null);
-
-  const handleToolClick = (toolName: string) => {
-    const toolGroup = ToolGroupManager.getToolGroup(TOOLGROUP_ID);
-    if (!toolGroup) return;
-
-    // Deactivate all tools first
-    toolGroup.setToolPassive(WindowLevelTool.toolName);
-    toolGroup.setToolPassive(ZoomTool.toolName);
-    toolGroup.setToolPassive(PanTool.toolName);
-    toolGroup.setToolPassive(LengthTool.toolName);
-    toolGroup.setToolPassive(AngleTool.toolName);
-    toolGroup.setToolPassive(RectangleROITool.toolName);
-    toolGroup.setToolPassive(CircleROITool.toolName);
-
-    // Activate the selected tool
-    if (activeTool === toolName) {
-      setActiveTool(null);
-    } else {
-      toolGroup.setToolActive(toolName, { bindings: [{ mouseButton: 1 }] });
-      setActiveTool(toolName);
-    }
-  };
+  const { activeTool, handleToolClick } = useToolManager();
+  const { tools } = useToolConfig();
 
   if (!isActive) return null;
-
-  const tools = [
-    {
-      name: WindowLevelTool.toolName,
-      label: 'Window Level',
-      icon: AdjustmentsHorizontalIcon,
-    },
-    {
-      name: ZoomTool.toolName,
-      label: 'Zoom',
-      icon: ArrowsPointingOutIcon,
-    },
-    {
-      name: PanTool.toolName,
-      label: 'Pan',
-      icon: HandRaisedIcon,
-    },
-    {
-      name: LengthTool.toolName,
-      label: 'Length',
-      icon: ArrowPathIcon,
-    },
-    {
-      name: AngleTool.toolName,
-      label: 'Angle',
-      icon: Square2StackIcon,
-    },
-    {
-      name: RectangleROITool.toolName,
-      label: 'Rectangle',
-      icon: Square3Stack3DIcon,
-    },
-    {
-      name: CircleROITool.toolName,
-      label: 'Circle',
-      icon: CircleStackIcon,
-    },
-  ];
 
   return (
     <div className="space-y-2">
