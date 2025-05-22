@@ -13,6 +13,15 @@ A modern, interactive DICOM viewer built with React, Cornerstone3D, and Tailwind
 - **Modern UI**: Responsive sidebar, Heroicons, and Tailwind CSS styling.
 - **IndexedDB Storage**: Store and manage uploaded/sample files in the browser.
 - **Test Coverage**: Custom hooks and components are covered by unit tests.
+- **Web Workers for Decoding**: Efficient DICOM image decoding using web workers for performance.
+
+## Web Worker Usage
+
+This project leverages web workers to offload DICOM image decoding (such as JPEG and JPEG2000) from the main UI thread. By using the Cornerstone3D codecs (e.g., libjpeg-turbo, OpenJPEG) in a worker context, the viewer can efficiently decode large medical images without blocking the user interface, resulting in a smoother and more responsive experience.
+
+- The codecs are loaded and initialized in a separate thread via web workers.
+- This allows for parallel processing and improved performance, especially with large or complex DICOM files.
+- The setup is handled automatically by the Cornerstone3D libraries and the project configuration.
 
 ## Getting Started
 
