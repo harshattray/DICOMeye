@@ -1,6 +1,6 @@
 # DICOM Viewer
 
-![DICOM Viewer Screenshot](./screen.png)
+![DICOM Viewer Screenshot](./screen1.png)
 
 A modern, interactive DICOM viewer built with React, Cornerstone3D, and Tailwind CSS. This application allows you to upload, view, and interact with DICOM medical images directly in your browser. It features measurement tools, metadata display, and a clean, user-friendly interface.
 
