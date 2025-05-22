@@ -1,0 +1,38 @@
+{
+  "name": "cornerstone3d-webpack-viewer",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "webpack serve --mode development",
+    "build": "webpack --mode production"
+  },
+  "dependencies": {
+    "@cornerstonejs/core": "^3.15.4",
+    "@cornerstonejs/tools": "^3.15.4",
+    "@cornerstonejs/dicom-image-loader": "^3.15.4",
+    "@cornerstonejs/codec-libjpeg-turbo-8bit": "*",
+    "@cornerstonejs/codec-openjpeg": "*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-dropzone": "14.2.3",
+    "idb-keyval": "^6.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.7",
+    "@types/react-dom": "^18.2.4",
+    "copy-webpack-plugin": "^11.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.3.3",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.3",
+    "style-loader": "^3.3.3",
+    "css-loader": "^6.8.1",
+    "postcss": "^8.4.31",
+    "postcss-loader": "^7.3.3",
+    "autoprefixer": "^10.4.16",
+    "tailwindcss": "^3.4.1",
+    "path-browserify": "^1.0.1"
+  }
+}
