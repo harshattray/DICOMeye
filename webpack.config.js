@@ -28,6 +28,14 @@ module.exports = {
     historyApiFallback: true,
     port: 3000,
     open: true,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+    }
+  },
+  experiments: {
+    asyncWebAssembly: true,
   },
   module: {
     rules: [
@@ -38,7 +46,20 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+            },
+          },
+          'postcss-loader',
+        ],
+      },
+      {
+        test: /\.wasm$/,
+        type: 'asset/resource',
       },
     ],
   },
@@ -55,6 +76,10 @@ module.exports = {
         {
           from: path.resolve(__dirname, 'node_modules/@cornerstonejs/codec-openjpeg/dist'),
           to: 'codecs/openjpeg',
+        },
+        {
+          from: path.resolve(__dirname, 'node_modules/@cornerstonejs/codec-libjpeg-turbo-8bit/dist/libjpegturbowasm_decode.wasm'),
+          to: 'libjpegturbowasm_decode.wasm',
         },
       ],
     }),

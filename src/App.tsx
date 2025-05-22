@@ -4,8 +4,6 @@ import Viewer from '@components/Viewer';
 import MetadataPanel from '@components/MetadataPanel';
 import { initCornerstone } from '@lib/cornerstoneSetup';
 import React from 'react';
-import './index.css'
-
 
 const App = () => {
   const [imageId, setImageId] = useState<string | null>(null);

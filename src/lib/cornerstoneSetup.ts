@@ -3,25 +3,46 @@ import * as cornerstoneTools from '@cornerstonejs/tools';
 import { init as initImageLoader } from '@cornerstonejs/dicom-image-loader';
 
 export async function initCornerstone() {
-  type CodecInitFn = (config: {
-    wasmModuleURL: string;
-    locateFile?: (filename: string) => string;
-  }) => Promise<void>;
+  try {
+    // Type definitions for codec initialization
+    type CodecInitConfig = {
+      wasmModuleURL: string;
+      locateFile?: (filename: string) => string;
+    };
+    type CodecInitFunction = (config: CodecInitConfig) => Promise<void>;
 
-  const jpegInit = (await import('@cornerstonejs/codec-libjpeg-turbo-8bit')).default as unknown as CodecInitFn;
-  const openjpegInit = (await import('@cornerstonejs/codec-openjpeg')).default as unknown as CodecInitFn;
+    // Import codecs with proper typing
+    const jpegModule = await import('@cornerstonejs/codec-libjpeg-turbo-8bit');
+    const openjpegModule = await import('@cornerstonejs/codec-openjpeg');
 
-  await jpegInit({
-    wasmModuleURL: '/codecs/libjpeg-turbo/libjpegturbowasm_decode.wasm',
-    locateFile: (filename) => `/codecs/libjpeg-turbo/${filename}`,
-  });
+    // Get initialization functions - using the correct property based on actual module exports
+    const jpegInit: CodecInitFunction = jpegModule.default?.initialize || jpegModule.default;
+    const openjpegInit: CodecInitFunction = openjpegModule.default?.initialize || openjpegModule.default;
 
-  await openjpegInit({
-    wasmModuleURL: '/codecs/openjpeg/openjpegwasm_decode.wasm',
-    locateFile: (filename) => `/codecs/openjpeg/${filename}`,
-  });
+    if (!jpegInit || !openjpegInit) {
+      throw new Error('Failed to initialize codecs: initialization functions not found');
+    }
 
-  initImageLoader();
-  cornerstoneTools.init();
-  cornerstone.setUseCPURendering(false);
+    // Initialize codecs
+    await Promise.all([
+      jpegInit({
+        wasmModuleURL: '/codecs/libjpeg-turbo/libjpegturbowasm_decode.wasm',
+        locateFile: (filename: string) => `/codecs/libjpeg-turbo/${filename}`
+      }),
+      openjpegInit({
+        wasmModuleURL: '/codecs/openjpeg/openjpegwasm_decode.wasm',
+        locateFile: (filename: string) => `/codecs/openjpeg/${filename}`
+      })
+    ]);
+
+    // Initialize DICOM image loader and tools
+    initImageLoader();
+    cornerstoneTools.init();
+    cornerstone.setUseCPURendering(false);
+
+    console.log('Cornerstone initialized successfully');
+  } catch (error) {
+    console.error('Error initializing Cornerstone:', error);
+    throw error;
+  }
 }
