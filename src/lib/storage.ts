@@ -1,3 +1,11 @@
+/**
+ * @author: Harsha Attray
+ * @description: Utility functions for managing DICOM file storage using IndexedDB
+ * @version: 1.0.0
+ * @date: 2025-05-24
+ * @license: MIT
+ */
+
 import { set, get, del, clear } from 'idb-keyval';
 
 const STORAGE_KEY = 'dicom-files';

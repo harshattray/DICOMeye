@@ -1,3 +1,11 @@
+/**
+ * @author: Harsha Attray
+ * @description: Main DICOM image viewer component that handles rendering and interaction with DICOM images
+ * @version: 1.0.0
+ * @date: 2025-05-24
+ * @license: MIT
+ */
+
 import React, { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import {
   RenderingEngine,

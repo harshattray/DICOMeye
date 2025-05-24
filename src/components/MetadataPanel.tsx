@@ -1,3 +1,11 @@
+/**
+ * @author: Harsha Attray
+ * @description: Displays DICOM metadata in a collapsible panel with key information about the loaded image
+ * @version: 1.0.0
+ * @date: 2025-05-24
+ * @license: MIT
+ */
+
 import React from 'react';
 
 

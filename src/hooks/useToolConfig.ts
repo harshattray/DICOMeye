@@ -1,3 +1,11 @@
+/**
+ * @author: Harsha Attray
+ * @description: Custom hook for managing DICOM viewer tool configurations and settings
+ * @version: 1.0.0
+ * @date: 2025-05-24
+ * @license: MIT
+ */
+
 import {
   WindowLevelTool,
   ZoomTool,
