@@ -13,9 +13,9 @@ const Upload = ({ onUpload }: UploadProps) => {
   });
 
   return (
-    <div {...getRootProps()} className="border p-4 bg-gray-100 text-center cursor-pointer rounded">
+    <div {...getRootProps()} className="border p-4 bg-gray-100 text-center cursor-pointer rounded dark:bg-gray-700 dark:border-gray-600">
       <input {...getInputProps()} />
-      <p>Drag & drop DICOM files here or click to select</p>
+      <p className="text-gray-700 dark:text-gray-300">Drag & drop DICOM files here or click to select</p>
     </div>
   );
 };

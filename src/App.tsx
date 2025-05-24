@@ -6,12 +6,15 @@ import ToolControls from '@components/ToolControls';
 import SampleSelector from '@components/SampleSelector';
 import { initCornerstone } from '@lib/cornerstoneSetup';
 import { saveDicom, clearStorage } from '@lib/storage';
+import { useDarkMode } from './hooks/useDarkMode';
 import { 
   DocumentTextIcon, 
-  PhotoIcon, 
+  PhotoIcon,
   WrenchScrewdriverIcon,
   InformationCircleIcon,
-  XMarkIcon
+  XMarkIcon,
+  SunIcon,
+  MoonIcon,
 } from '@heroicons/react/24/outline';
 import React from 'react';
 
@@ -19,6 +22,7 @@ const App = () => {
   const [imageId, setImageId] = useState<string | null>(null);
   const [metadata, setMetadata] = useState<Record<string, string>>({});
   const viewerRef = useRef<ViewerRef>(null);
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   useEffect(() => {
     initCornerstone();
@@ -63,23 +67,34 @@ const App = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
       {/* Sidebar */}
-      <div className="w-72 bg-white shadow-lg flex flex-col">
+      <div className="w-72 bg-white shadow-lg flex flex-col dark:bg-gray-800 dark:text-gray-200">
         {/* Header */}
-        <div className="p-4 border-b border-gray-200">
-          <h1 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+          <h1 className="text-xl font-semibold text-gray-800 flex items-center gap-2 dark:text-gray-200">
             <DocumentTextIcon className="h-6 w-6 text-blue-500" />
             DICOM Viewer
           </h1>
+           <button
+            onClick={toggleDarkMode}
+            className="p-1 rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-gray-500 dark:hover:text-gray-400"
+            title="Toggle Dark Mode"
+          >
+            {isDarkMode ? (
+              <SunIcon className="h-6 w-6" />
+            ) : (
+              <MoonIcon className="h-6 w-6" />
+            )}
+          </button>
         </div>
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
           {/* Upload Section */}
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
-              <PhotoIcon className="h-5 w-5 text-gray-400" />
+            <div className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <PhotoIcon className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               Upload DICOM
             </div>
             <Upload onUpload={handleUpload} />
@@ -87,8 +102,8 @@ const App = () => {
 
           {/* Sample Files Section */}
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
-              <DocumentTextIcon className="h-5 w-5 text-gray-400" />
+            <div className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <DocumentTextIcon className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               Sample Files
             </div>
             <SampleSelector onSelect={handleUpload} onClear={handleClear} isActive={true} />
@@ -97,8 +112,8 @@ const App = () => {
           {/* Tools Section */}
           {imageId && (
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                <WrenchScrewdriverIcon className="h-5 w-5 text-gray-400" />
+              <div className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <WrenchScrewdriverIcon className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 Tools
               </div>
               <ToolControls isActive={!!imageId} viewerRef={viewerRef} />
@@ -108,11 +123,11 @@ const App = () => {
           {/* Metadata Section */}
           {Object.keys(metadata).length > 0 && (
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                <InformationCircleIcon className="h-5 w-5 text-gray-400" />
+              <div className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <InformationCircleIcon className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 Metadata
               </div>
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-gray-50 rounded-lg p-4 dark:bg-gray-700">
                 <MetadataPanel metadata={metadata} />
               </div>
             </div>
@@ -121,10 +136,10 @@ const App = () => {
 
         {/* Footer */}
         {imageId && (
-          <div className="p-4 border-t border-gray-200">
+          <div className="p-4 border-t border-gray-200 dark:border-gray-700">
             <button
               onClick={handleClear}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-md hover:bg-red-100 transition-colors"
+              className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-md hover:bg-red-100 transition-colors dark:text-red-300 dark:bg-red-900 dark:hover:bg-red-800"
             >
               <XMarkIcon className="h-5 w-5" />
               Clear All
@@ -136,14 +151,14 @@ const App = () => {
       {/* Main Viewer */}
       <div className="flex-1 p-4">
         {imageId ? (
-          <div className="h-full bg-white rounded-lg shadow-lg overflow-hidden">
+          <div className="h-full bg-white rounded-lg shadow-lg overflow-hidden dark:bg-gray-800">
             <Viewer imageId={imageId} ref={viewerRef} />
           </div>
         ) : (
-          <div className="h-full flex items-center justify-center bg-white rounded-lg shadow-lg">
+          <div className="h-full flex items-center justify-center bg-white rounded-lg shadow-lg dark:bg-gray-800">
             <div className="text-center">
-              <PhotoIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <div className="text-gray-500 text-lg">
+              <PhotoIcon className="h-12 w-12 text-gray-400 mx-auto mb-4 dark:text-gray-500" />
+              <div className="text-gray-500 text-lg dark:text-gray-400">
                 Upload a DICOM file to begin
               </div>
             </div>
