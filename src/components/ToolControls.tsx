@@ -20,6 +20,7 @@ import {
   CircleStackIcon,
   ArrowPathIcon,
   ArrowDownTrayIcon,
+  PencilIcon,
 } from '@heroicons/react/24/outline';
 import { ViewerRef } from './Viewer';
 
@@ -28,47 +29,57 @@ const TOOLGROUP_ID = 'defaultToolGroup';
 interface ToolControlsProps {
   isActive: boolean;
   viewerRef: React.RefObject<ViewerRef>;
+  onToggleFullscreen?: () => void;
 }
 
-const ToolControls: React.FC<ToolControlsProps> = ({ isActive, viewerRef }) => {
+interface Tool {
+  name: string;
+  label: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+}
+
+const ToolControls = ({ isActive, viewerRef, onToggleFullscreen }: ToolControlsProps) => {
   const { activeTool, handleToolClick } = useToolManager();
   const { tools } = useToolConfig();
-
-  const handleDownloadClick = () => {
-    if (viewerRef.current) {
-      viewerRef.current.downloadImage();
-    }
-  };
 
   if (!isActive) return null;
 
   return (
     <div className="space-y-2">
       <div className="text-sm font-medium text-gray-700 mb-2">Tools</div>
-      <div className="grid grid-cols-2 gap-2">
-        {tools.map(({ name, label, icon: Icon }) => (
+      <div className="grid grid-cols-3 gap-2">
+        {tools.map((tool: Tool) => (
           <button
-            key={name}
-            onClick={() => handleToolClick(name)}
-            className={`flex items-center justify-center gap-2 px-3 py-2 text-sm rounded-md transition-colors ${
-              activeTool === name
-                ? 'bg-blue-500 text-white'
-                : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+            key={tool.name}
+            onClick={() => handleToolClick(tool.name)}
+            className={`p-2 rounded-md transition-colors ${
+              activeTool === tool.name
+                ? 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300'
+                : 'text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700'
             }`}
-            title={label}
+            title={tool.label}
           >
-            <Icon className="h-5 w-5" />
-            <span>{label}</span>
+            {React.createElement(tool.icon, { className: 'h-5 w-5' })}
           </button>
         ))}
+      </div>
+      <div className="flex gap-2">
         <button
-          onClick={handleDownloadClick}
-          className="flex items-center justify-center gap-2 px-3 py-2 text-sm rounded-md transition-colors bg-green-500 text-white hover:bg-green-600"
+          onClick={() => viewerRef.current?.downloadImage()}
+          className="flex-1 p-2 rounded-md text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
           title="Download Image"
         >
-          <ArrowDownTrayIcon className="h-5 w-5" />
-          <span>Download</span>
+          <ArrowDownTrayIcon className="h-5 w-5 mx-auto" />
         </button>
+        {onToggleFullscreen && (
+          <button
+            onClick={onToggleFullscreen}
+            className="flex-1 p-2 rounded-md text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
+            title="Enter Fullscreen"
+          >
+            <ArrowsPointingOutIcon className="h-5 w-5 mx-auto" />
+          </button>
+        )}
       </div>
     </div>
   );
