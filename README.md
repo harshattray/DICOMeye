@@ -1,83 +1,105 @@
 # DICOM Viewer
 
-![DICOM Viewer Screenshot](./screen1.png)
-
-A modern, interactive DICOM viewer built with React, Cornerstone3D, and Tailwind CSS. This application allows you to upload, view, and interact with DICOM medical images directly in your browser. It features measurement tools, metadata display, and a clean, user-friendly interface.
+A modern web-based DICOM viewer built with React, TypeScript, and Cornerstone.js. This application provides a user-friendly interface for viewing and analyzing DICOM medical images with various measurement and annotation tools.
 
 ## Features
 
-- **DICOM Upload**: Drag and drop or select DICOM files to view.
-- **Sample Files**: Quickly load sample DICOM images for demo or testing.
-- **Measurement Tools**: Window Level, Zoom, Pan, Length, Angle, Rectangle ROI, and Circle ROI tools with intuitive controls.
-- **Metadata Panel**: View key DICOM metadata for the loaded image.
-- **Modern UI**: Responsive sidebar, Heroicons, and Tailwind CSS styling.
-- **IndexedDB Storage**: Store and manage uploaded/sample files in the browser.
-- **Test Coverage**: Custom hooks and components are covered by unit tests.
-- **Web Workers for Decoding**: Efficient DICOM image decoding using web workers for performance.
-
-## Web Worker Usage
-
-This project leverages web workers to offload DICOM image decoding (such as JPEG and JPEG2000) from the main UI thread. By using the Cornerstone3D codecs (e.g., libjpeg-turbo, OpenJPEG) in a worker context, the viewer can efficiently decode large medical images without blocking the user interface, resulting in a smoother and more responsive experience.
-
-- The codecs are loaded and initialized in a separate thread via web workers.
-- This allows for parallel processing and improved performance, especially with large or complex DICOM files.
-- The setup is handled automatically by the Cornerstone3D libraries and the project configuration.
+- 🖼️ View DICOM images with high-quality rendering
+- 📏 Measurement tools (Length, Angle, Rectangle ROI, Circle ROI)
+- 🎨 Window Level adjustment for better image contrast
+- 🔍 Zoom and Pan capabilities
+- 💾 Download images with annotations
+- 🌓 Dark mode support
+- 📱 Responsive design
+- 🔄 Web Worker for efficient DICOM decoding
+- 💾 IndexedDB storage for offline access
+- 🖥️ Fullscreen mode with floating tools
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v16 or later recommended)
-- npm
+- Node.js (v14 or higher)
+- npm or yarn
 
 ### Installation
 
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/dicom-viewer.git
+cd dicom-viewer
+```
+
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-### Running the App
-
+3. Start the development server:
 ```bash
 npm start
 ```
 
-Open [http://localhost:8080](http://localhost:8080) in your browser.
-
-### Running Tests
-
-```bash
-npm test
-```
+4. Open your browser and navigate to `http://localhost:8080`
 
 ## Project Structure
 
-- `src/components/` — React components (Viewer, ToolControls, SampleSelector, etc.)
-- `src/hooks/` — Custom React hooks for tool management and configuration
-- `src/hooks/__tests__/` — Unit tests for hooks
-- `src/components/__tests__/` — Unit tests for components
-- `public/` — Static assets (including `screenshot.png`)
+```
+dicom-viewer/
+├── src/
+│   ├── components/     # React components
+│   ├── hooks/         # Custom React hooks
+│   ├── lib/           # Utility functions and setup
+│   ├── workers/       # Web Workers
+│   └── main.tsx       # Application entry point
+├── public/
+│   └── assets/        # Sample DICOM files
+└── screens/           # Screenshots
+```
 
 ## Usage
 
-1. **Upload DICOM**: Drag and drop or click to select a DICOM file.
-2. **Sample Files**: Use the dropdown to load a sample DICOM image.
-3. **Tools**: Select a tool from the sidebar to interact with the image (window/level, zoom, pan, measure, etc.).
-4. **Metadata**: View DICOM metadata in the sidebar.
-5. **Clear All**: Remove all loaded files and reset the viewer.
+1. Upload a DICOM file using the upload button or drag and drop
+2. Use the toolbar to select different measurement tools
+3. Click and drag on the image to make measurements
+4. Use the mouse wheel to zoom in/out
+5. Right-click and drag to pan the image
+6. Use the Window Level tool to adjust image contrast
+7. Download the image with annotations using the download button
+8. Toggle fullscreen mode for a distraction-free viewing experience
 
 ## Technologies Used
 
-- [React](https://react.dev/)
-- [Cornerstone3D](https://www.cornerstonejs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Heroicons](https://heroicons.com/)
-- [Jest](https://jestjs.io/) & [Testing Library](https://testing-library.com/)
+- React
+- TypeScript
+- Cornerstone.js
+- Tailwind CSS
+- Web Workers
+- IndexedDB
+- HTML5 Canvas
 
-## Screenshot
+## Screenshots
 
-![DICOM Viewer Screenshot](./screen.png)
+### Dark Mode
+![Dark Mode Interface](screens/screen-dark.png)
+
+### Floating Tools in Fullscreen Mode
+![Floating Tools](screens/screen-float.png)
 
 ## License
 
-MIT
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Acknowledgments
+
+- [Cornerstone.js](https://github.com/cornerstonejs/cornerstone) for the DICOM rendering engine
+- [Tailwind CSS](https://tailwindcss.com/) for the styling framework
+- [Heroicons](https://heroicons.com/) for the beautiful icons
