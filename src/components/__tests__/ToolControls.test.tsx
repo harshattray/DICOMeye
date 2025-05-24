@@ -13,7 +13,11 @@ describe('ToolControls', () => {
   const mockTools = [
     { name: 'WindowLevel', label: 'Window Level', icon: () => <div>Window Level Icon</div> },
     { name: 'Zoom', label: 'Zoom', icon: () => <div>Zoom Icon</div> },
+    // Add other tools if needed for broader test coverage, though these two suffice for basic tests
   ];
+  
+  // Mock viewerRef
+  const mockViewerRef = { current: { downloadImage: jest.fn() } };
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -27,24 +31,24 @@ describe('ToolControls', () => {
   });
 
   it('should not render when isActive is false', () => {
-    render(<ToolControls isActive={false} />);
+    render(<ToolControls isActive={false} viewerRef={mockViewerRef} />);
     expect(screen.queryByText('Tools')).not.toBeInTheDocument();
   });
 
   it('should render when isActive is true', () => {
-    render(<ToolControls isActive={true} />);
+    render(<ToolControls isActive={true} viewerRef={mockViewerRef} />);
     expect(screen.getByText('Tools')).toBeInTheDocument();
   });
 
   it('should render all tools', () => {
-    render(<ToolControls isActive={true} />);
+    render(<ToolControls isActive={true} viewerRef={mockViewerRef} />);
     
     expect(screen.getByText('Window Level')).toBeInTheDocument();
     expect(screen.getByText('Zoom')).toBeInTheDocument();
   });
 
   it('should call handleToolClick when a tool is clicked', () => {
-    render(<ToolControls isActive={true} />);
+    render(<ToolControls isActive={true} viewerRef={mockViewerRef} />);
     
     fireEvent.click(screen.getByText('Window Level'));
     expect(mockHandleToolClick).toHaveBeenCalledWith('WindowLevel');
@@ -56,7 +60,7 @@ describe('ToolControls', () => {
       handleToolClick: mockHandleToolClick,
     });
 
-    render(<ToolControls isActive={true} />);
+    render(<ToolControls isActive={true} viewerRef={mockViewerRef} />);
     
     const windowLevelButton = screen.getByText('Window Level').closest('button');
     expect(windowLevelButton).toHaveClass('bg-blue-500');
@@ -69,10 +73,20 @@ describe('ToolControls', () => {
       handleToolClick: mockHandleToolClick,
     });
 
-    render(<ToolControls isActive={true} />);
+    render(<ToolControls isActive={true} viewerRef={mockViewerRef} />);
     
     const zoomButton = screen.getByText('Zoom').closest('button');
     expect(zoomButton).toHaveClass('bg-white');
     expect(zoomButton).toHaveClass('text-gray-700');
+  });
+
+  it('should call downloadImage on viewerRef when Download button is clicked', () => {
+    render(<ToolControls isActive={true} viewerRef={mockViewerRef} />);
+
+    // Assuming 'Download' button exists with text 'Download'
+    const downloadButton = screen.getByTitle('Download Image');
+    fireEvent.click(downloadButton);
+
+    expect(mockViewerRef.current.downloadImage).toHaveBeenCalled();
   });
 }); 

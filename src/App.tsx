@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Upload from '@components/Upload';
-import Viewer from '@components/Viewer';
+import Viewer, { ViewerRef } from '@components/Viewer';
 import MetadataPanel from '@components/MetadataPanel';
 import ToolControls from '@components/ToolControls';
 import SampleSelector from '@components/SampleSelector';
@@ -18,6 +18,7 @@ import React from 'react';
 const App = () => {
   const [imageId, setImageId] = useState<string | null>(null);
   const [metadata, setMetadata] = useState<Record<string, string>>({});
+  const viewerRef = useRef<ViewerRef>(null);
 
   useEffect(() => {
     initCornerstone();
@@ -100,7 +101,7 @@ const App = () => {
                 <WrenchScrewdriverIcon className="h-5 w-5 text-gray-400" />
                 Tools
               </div>
-              <ToolControls isActive={!!imageId} />
+              <ToolControls isActive={!!imageId} viewerRef={viewerRef} />
             </div>
           )}
 
@@ -136,7 +137,7 @@ const App = () => {
       <div className="flex-1 p-4">
         {imageId ? (
           <div className="h-full bg-white rounded-lg shadow-lg overflow-hidden">
-            <Viewer imageId={imageId} />
+            <Viewer imageId={imageId} ref={viewerRef} />
           </div>
         ) : (
           <div className="h-full flex items-center justify-center bg-white rounded-lg shadow-lg">

@@ -19,17 +19,26 @@ import {
   Square3Stack3DIcon,
   CircleStackIcon,
   ArrowPathIcon,
+  ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline';
+import { ViewerRef } from './Viewer';
 
 const TOOLGROUP_ID = 'defaultToolGroup';
 
 interface ToolControlsProps {
   isActive: boolean;
+  viewerRef: React.RefObject<ViewerRef>;
 }
 
-const ToolControls: React.FC<ToolControlsProps> = ({ isActive }) => {
+const ToolControls: React.FC<ToolControlsProps> = ({ isActive, viewerRef }) => {
   const { activeTool, handleToolClick } = useToolManager();
   const { tools } = useToolConfig();
+
+  const handleDownloadClick = () => {
+    if (viewerRef.current) {
+      viewerRef.current.downloadImage();
+    }
+  };
 
   if (!isActive) return null;
 
@@ -52,6 +61,14 @@ const ToolControls: React.FC<ToolControlsProps> = ({ isActive }) => {
             <span>{label}</span>
           </button>
         ))}
+        <button
+          onClick={handleDownloadClick}
+          className="flex items-center justify-center gap-2 px-3 py-2 text-sm rounded-md transition-colors bg-green-500 text-white hover:bg-green-600"
+          title="Download Image"
+        >
+          <ArrowDownTrayIcon className="h-5 w-5" />
+          <span>Download</span>
+        </button>
       </div>
     </div>
   );

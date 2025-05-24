@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import {
   RenderingEngine,
   Enums,
@@ -18,17 +18,51 @@ import {
   RectangleROITool,
   CircleROITool,
 } from '@cornerstonejs/tools';
+import html2canvas from 'html2canvas';
 
 interface ViewerProps {
   imageId: string;
+}
+
+export interface ViewerRef {
+  downloadImage: (format?: string) => void;
 }
 
 const VIEWPORT_ID = 'defaultViewport';
 const RENDERING_ENGINE_ID = 'defaultRenderingEngine';
 const TOOLGROUP_ID = 'defaultToolGroup';
 
-const Viewer: React.FC<ViewerProps> = ({ imageId }) => {
+const Viewer = forwardRef<ViewerRef, ViewerProps>(({ imageId }, ref) => {
   const elementRef = useRef<HTMLDivElement>(null);
+
+  // Expose download function via ref
+  useImperativeHandle(ref, () => ({
+    downloadImage: async (format = 'image/jpeg') => {
+      const element = elementRef.current;
+      if (!element) {
+        console.error('Viewer element not found.');
+        return;
+      }
+
+      try {
+        // Use html2canvas to capture the entire viewer element
+        const canvas = await html2canvas(element, {
+          useCORS: true, // Important if you are loading images from external URLs
+          allowTaint: true,
+        });
+
+        const dataUrl = canvas.toDataURL(format, 1.0); // 1.0 for max quality
+        const link = document.createElement('a');
+        link.download = `dicom-image.${format.split('/')[1]}`;
+        link.href = dataUrl;
+        link.click();
+        link.remove();
+      } catch (error) {
+        console.error('Error generating or downloading image with annotations:', error);
+        alert('Failed to download image with annotations.');
+      }
+    },
+  }));
 
   useEffect(() => {
     const element = elementRef.current;
@@ -138,6 +172,6 @@ const Viewer: React.FC<ViewerProps> = ({ imageId }) => {
       style={{ width: '100%', height: '100%' }}
     />
   );
-};
+});
 
 export default Viewer;
