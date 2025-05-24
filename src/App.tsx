@@ -1,3 +1,14 @@
+/**
+ * @author: Harsha Attray
+ * @description: DICOM Viewer
+ * @version: 1.0.0
+ * @date: 2025-05-24
+ * @license: MIT
+ *
+ * @description:
+ * 
+ */
+
 import { useEffect, useState, useRef } from 'react';
 import Upload from '@components/Upload';
 import Viewer, { ViewerRef } from '@components/Viewer';

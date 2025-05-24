@@ -1,26 +1,17 @@
+/**
+ * @author: Harsha Attray
+ * @description: Manages the toolbar interface for DICOM image manipulation tools and measurements
+ * @version: 1.0.0
+ * @date: 2025-05-24
+ * @license: MIT
+ */
+
 import React from 'react';
 import { useToolManager } from '../hooks/useToolManager';
 import { useToolConfig } from '../hooks/useToolConfig';
 import {
-  ToolGroupManager,
-  ZoomTool,
-  PanTool,
-  WindowLevelTool,
-  LengthTool,
-  AngleTool,
-  RectangleROITool,
-  CircleROITool,
-} from '@cornerstonejs/tools';
-import {
   ArrowsPointingOutIcon,
-  HandRaisedIcon,
-  AdjustmentsHorizontalIcon,
-  Square2StackIcon,
-  Square3Stack3DIcon,
-  CircleStackIcon,
-  ArrowPathIcon,
   ArrowDownTrayIcon,
-  PencilIcon,
 } from '@heroicons/react/24/outline';
 import { ViewerRef } from './Viewer';
 

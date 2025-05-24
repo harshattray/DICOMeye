@@ -1,3 +1,11 @@
+/**
+ * @author: Harsha Attray
+ * @description: Handles DICOM file uploads with drag-and-drop support and file selection
+ * @version: 1.0.0
+ * @date: 2025-05-24
+ * @license: MIT
+ */
+
 import { useDropzone } from 'react-dropzone';
 import React from 'react';
 

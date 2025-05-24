@@ -1,3 +1,11 @@
+/**
+ * @author: Harsha Attray
+ * @description: Provides a dropdown interface for selecting and loading sample DICOM files
+ * @version: 1.0.0
+ * @date: 2025-05-24
+ * @license: MIT
+ */
+
 import React from 'react';
 import { saveDicom } from '@lib/storage';
 import { DocumentArrowDownIcon, TrashIcon } from '@heroicons/react/24/outline';

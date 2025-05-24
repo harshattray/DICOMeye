@@ -1,3 +1,11 @@
+/**
+ * @author: Harsha Attray
+ * @description: Custom hook for managing active tools and tool state in the DICOM viewer
+ * @version: 1.0.0
+ * @date: 2025-05-24
+ * @license: MIT
+ */
+
 import { useState } from 'react';
 import {
   ToolGroupManager,
