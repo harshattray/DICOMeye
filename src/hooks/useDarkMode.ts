@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 
 export const useDarkMode = () => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Initialize from local storage or system preference
+    // Initialize from local storage or default to dark mode
     const storedMode = localStorage.getItem('darkMode');
     if (storedMode !== null) {
       return storedMode === 'true';
     }
-    // Check system preference
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // Default to dark mode if no stored preference
+    return true;
   });
 
   useEffect(() => {
