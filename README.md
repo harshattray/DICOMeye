@@ -1,5 +1,7 @@
 # DICOM Viewer
 
+![](screens/screen-dark.png)
+
 A modern web-based DICOM viewer built with React, TypeScript, and Cornerstone.js. This application provides a user-friendly interface for viewing and analyzing DICOM medical images with various measurement and annotation tools.
 
 ## Features
@@ -25,17 +27,20 @@ A modern web-based DICOM viewer built with React, TypeScript, and Cornerstone.js
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/yourusername/dicom-viewer.git
 cd dicom-viewer
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Start the development server:
+
 ```bash
 npm start
 ```
@@ -81,9 +86,11 @@ dicom-viewer/
 ## Screenshots
 
 ### Dark Mode
+
 ![Dark Mode Interface](screens/screen-dark.png)
 
 ### Floating Tools in Fullscreen Mode
+
 ![Floating Tools](screens/screen-float.png)
 
 ## License
